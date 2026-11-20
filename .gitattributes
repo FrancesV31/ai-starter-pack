@@ -1,0 +1,4 @@
+# Normalise line endings in the repo; PowerShell scripts check out with Windows line endings.
+* text=auto
+*.ps1 text eol=crlf
+*.sh  text eol=lf

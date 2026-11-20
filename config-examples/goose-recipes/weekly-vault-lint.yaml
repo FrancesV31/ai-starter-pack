@@ -1,0 +1,27 @@
+version: 1.0.0
+title: Weekly vault lint
+description: Health-check the Obsidian memory vault and write a lint report to sessions/. Safe to run unattended.
+
+parameters:
+  - key: vault_path
+    input_type: string
+    requirement: optional
+    default: "C:/Users/YOUR-NAME/Documents/my-vault"
+    description: Full path to your vault (the folder that contains AGENTS.md). Change the default before scheduling.
+
+instructions: |
+  You maintain an Obsidian memory vault located at {{ vault_path }}.
+  First read {{ vault_path }}/AGENTS.md. Its rules are binding.
+  You are running unattended: never ask questions, put anything that needs a decision in the report.
+  Never modify or delete anything in a raw/ folder. Never delete pages. Never write secrets.
+  Only work inside {{ vault_path }}.
+
+prompt: |
+  Run the Lint operation described in AGENTS.md on the vault at {{ vault_path }}:
+  1. Check structure (broken links, index drift, orphan pages), quality (unsourced claims,
+     contradictions, duplicates, stale pages) and hygiene (inbox items older than 7 days).
+  2. Fix only safe, mechanical issues (missing index entries, obviously broken links).
+  3. Write the report to {{ vault_path }}/sessions/ named with today's date and "-lint-report.md",
+     with sections: Summary, Fixed, Needs a decision (grouped by severity).
+  4. Append a lint entry to log.md and link the report from index.md under Recent sessions.
+  Finish by printing the report's path and its summary line.

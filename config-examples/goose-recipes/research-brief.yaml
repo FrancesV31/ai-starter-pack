@@ -1,0 +1,37 @@
+version: 1.0.0
+title: Research brief
+description: Research one topic on the web and save a sourced brief into the memory vault. Run it directly, or have Goose use it as a subagent, one per topic.
+
+parameters:
+  - key: topic
+    input_type: string
+    requirement: user_prompt
+    description: The question or topic to research.
+  - key: vault_path
+    input_type: string
+    requirement: optional
+    default: "C:/Users/YOUR-NAME/Documents/my-vault"
+    description: Full path to your vault (the folder that contains AGENTS.md).
+  - key: domain
+    input_type: string
+    requirement: optional
+    default: "example-domain"
+    description: Vault domain where the brief is saved.
+
+instructions: |
+  You are a careful, sceptical researcher.
+  Prefer primary sources, note every source's date, and cross-check important facts in two independent sources.
+  Distinguish facts, estimates and opinions. Never invent sources or quotes; if something can't be found, say so.
+  Follow the rules in {{ vault_path }}/AGENTS.md when writing to the vault.
+
+prompt: |
+  Research: {{ topic }}
+
+  Save a brief (max ~400 words) to {{ vault_path }}/domains/{{ domain }}/wiki/research/
+  (create the folder if needed; file name: today's date + a short slug of the topic) with:
+  - Answer in 3 lines
+  - Key findings (each with its source link)
+  - Uncertainties and disagreements
+  - Sources (title, link, date)
+  Then update index.md and append an entry to log.md.
+  Finish by printing the file path and the 3-line answer.

@@ -1,0 +1,12 @@
+# Obsidian state (if someone opens the pack itself as a vault)
+.obsidian/
+.trash/
+
+# OS clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Never commit secrets
+.env
+*.key

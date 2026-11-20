@@ -1,0 +1,10 @@
+# If you back up this vault with Git (e.g. the Obsidian Git plugin), these stay local only.
+
+# Raw sources: often large, sometimes private. Remove this line if you want them backed up too.
+domains/*/raw/**
+!domains/*/raw/README.md
+
+# Obsidian's per-device state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.trash/
