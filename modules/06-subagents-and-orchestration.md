@@ -1,12 +1,20 @@
 # 06 — ⭐ Subagents & orchestration: from one assistant to a team
 
-⏱ 45 min · [← Previous](05-connectors-mcp.md) · [Next: Automation →](07-automation.md)
+⏱ 60 min · [← Previous](05-connectors-mcp.md) · [Next: Automation →](07-automation.md)
 
 ## Why it matters
 
-Remember the whiteboard (module 00)? A big job like "research five competitors, compare them, and write a recommendation" fills it fast: every web page read, every dead end. By the time the agent writes the recommendation, its whiteboard is cluttered and the quality drops.
+Remember the whiteboard (module 00)? A big job like "research five competitors, compare them and write a recommendation" fills it fast: every web page read, every dead end. By the time the agent writes the recommendation, its whiteboard is cluttered and the quality drops.
 
-**Subagents** solve this the way a manager would: hand each piece to a helper with a **clean whiteboard and one job**, and get back only a short report.
+**Subagents** solve this the way a manager would: hand each piece to a helper with a **clean whiteboard and one job**, and get back only a short report. **Orchestration** goes one step further: a whole team of specialists, each on the model that suits it, with rules for who does what and how the work is checked.
+
+This module goes in three levels:
+
+| Level | What you'll do | Time |
+|---|---|---|
+| **1. Delegate** | Ask your agent to use helpers, in plain language | 10 min |
+| **2. Specialists** | Install named subagents, including a real fact-checker | 20 min |
+| **3. A team** | Study a real orchestrated team and write your own roster | 30 min |
 
 ## The concept
 
@@ -20,8 +28,8 @@ Remember the whiteboard (module 00)? A big job like "research five competitors, 
              ▼               ▼               ▼
        ┌──────────┐    ┌──────────┐    ┌──────────┐
        │Subagent 1│    │Subagent 2│    │Subagent 3│   each: fresh whiteboard,
-       │Competitor│    │Competitor│    │Competitor│   own tools, one job
-       │    A     │    │    B     │    │    C     │
+       │Competitor│    │Competitor│    │Competitor│   own instructions, own tools,
+       │    A     │    │    B     │    │    C     │   possibly its own model
        └────┬─────┘    └────┬─────┘    └────┬─────┘
             └── 1-page report ──┴── 1-page report ──┘
                           ▼
@@ -31,117 +39,156 @@ Remember the whiteboard (module 00)? A big job like "research five competitors, 
 Three benefits:
 
 1. **Clean context.** The main agent keeps only the conclusions, not the 40 web pages behind them.
-2. **Specialisation.** Each helper can have its own instructions ("you are a sceptical reviewer"), its own tools (read-only, say), even a cheaper or stronger model.
+2. **Specialisation.** Each helper has its own instructions ("you are a rigorous fact-checker"), its own tools (read-only, say) and even its own model.
 3. **Parallelism.** Independent pieces run at the same time.
 
-The trade-off: subagents **don't see your conversation**. They only know what the main agent tells them in the hand-off. A vague hand-off gives a vague result, so the quality of the brief matters.
+The trade-off: subagents **don't see your conversation**. They know only what's in the hand-off. A vague brief gives a vague result.
 
-### From subagents to orchestration
+### Five orchestration patterns
 
-**Orchestration** is deciding *who does what, in what order, and how results are checked*. Five patterns cover almost everything (adapted from Anthropic's *Building effective agents*):
+Almost every multi-agent setup is one of these, or a combination (adapted from Anthropic's *Building effective agents*):
 
 | Pattern | Shape | Use when | Example |
 |---|---|---|---|
 | **Fan-out / fan-in** | Split → many in parallel → combine | Independent pieces of the same kind | Research 5 competitors at once |
-| **Pipeline** | A → B → C, each step's output feeds the next | Work with clear stages | Researcher → writer → editor |
-| **Generator + critic** | One makes, one reviews, repeat until good | Quality matters more than speed | Draft a pitch → sceptical investor critiques → revise |
-| **Router** | Look at the request, send it to the right specialist | Mixed incoming work | "Is this a research, writing or planning task?" |
-| **Orchestrator + team** | A lead plans, dispatches to specialists, reviews against criteria | Bigger projects | A small product team: planner, builder, tester |
+| **Pipeline** | A → B → C, each step's output feeds the next | Work with clear stages | Spec → build → test |
+| **Generator + critic** | One makes, one reviews, repeat until good | Quality matters more than speed | Draft → fact-check → revise |
+| **Router** | Look at the request, send it to the right specialist | Mixed incoming work | "Is this research, writing or planning?" |
+| **Orchestrator + team** | A lead plans, dispatches to specialists, gates the results | Bigger projects | The case study below |
 
-**Rule of thumb:** start with *one* agent. Add a subagent only when context gets cluttered or a job clearly splits. Every extra agent costs tokens and coordination.
+**Rule of thumb:** start with *one* agent. Add subagents when the context gets cluttered or a job clearly splits.
 
 ### Memory makes teams work
 
-Subagents forget everything when they finish, just like sessions. So **ask them to write their reports into the vault** (module 03), for example `domains/<topic>/wiki/research/competitor-a.md`. Then:
+Subagents forget everything when they finish, just like sessions. So **have them write their reports into the vault** (module 03). The main agent reads short reports, you review them in Obsidian, and next week's session builds on them. The vault becomes the team's **shared memory**.
 
-- the main agent reads short reports instead of raw research,
-- you can review each report in Obsidian,
-- and next week's session can build on them.
-
-The vault becomes the team's **shared memory**.
-
-## Set it up
-
-### 🟣 Claude Code
-
-**Built-in subagents** work right away. Just ask:
-
-> Use subagents to research these three tools in parallel: X, Y, Z. Each should return a 10-line summary: pricing, strengths, weaknesses, sources.
-
-**Custom subagents** are Markdown files with a role:
-
-| Scope | Location |
-|---|---|
-| All your projects | `~/.claude/agents/<name>.md` |
-| One project | `.claude/agents/<name>.md` |
-
-```markdown
----
-name: researcher
-description: Researches a question on the web and writes a sourced brief. Use for any research task that needs several sources.
-tools: Read, Write, Glob, Grep, WebSearch, WebFetch
 ---
 
-You are a careful researcher. For the question you are given:
-1. Search widely, prefer primary sources...
-```
+## Level 1 — Delegate in plain language (10 min)
 
-- `description` tells the main agent *when* to delegate to it (same idea as skills).
-- `tools` limits what it can do. Leave it out to allow everything.
-- Optional `model:` (`sonnet`, `opus`, `haiku`…) to run it on a cheaper or stronger model.
-
-This pack includes three ready-made ones in [`config-examples/subagents/`](../config-examples/subagents/): **researcher**, **critic** and **note-keeper**. Copy them into `~/.claude/agents/`.
-
-### 🪿 Goose
-
-Subagents work **in plain language**, through the built-in *Summon* extension (enabled by default):
-
-> Use 3 subagents in parallel to research X, Y and Z. Each returns a 10-line summary with sources.
-
-Words like "in parallel" or "then" set the mode. Useful settings (environment variables): `GOOSE_MAX_CONCURRENT_SUBAGENTS` (default 5), and `GOOSE_SUBAGENT_MODEL` / `GOOSE_SUBAGENT_PROVIDER` to run helpers on a cheaper model.
-
-For a **reusable specialist**, write a **recipe**: a YAML file with instructions and parameters ([`config-examples/goose-recipes/research-brief.yaml`](../config-examples/goose-recipes/research-brief.yaml)). Goose can run a recipe as a subagent: *"Use the research-brief recipe as a subagent for each of these three topics."*
-
-> Note: subagents are turned off in Goose's manual-approval modes, and they can't start their own subagents.
-
-## Try it (30 min) — your first agent team
-
-**Exercise 1 — Fan-out (10 min).** Pick a real question with 3 independent parts (3 tools, 3 cities, 3 job offers…):
+Both agents can create helpers on the fly. Pick a real question with 3 independent parts (3 tools, 3 cities, 3 job offers…):
 
 > Use 3 subagents in parallel, one per option: A, B, C. Each writes a brief to my vault at domains/example-domain/wiki/research/<option>.md with pros, cons and sources. Then compare them in a table and recommend one.
 
-Open the three briefs in Obsidian. Notice the main session stayed short and focused.
+- 🟣 Claude Code uses its built-in general-purpose subagent for this.
+- 🪿 Goose uses its built-in *Summon* extension. Words like "in parallel" or "then" set the mode. Settings (environment variables): `GOOSE_MAX_CONCURRENT_SUBAGENTS` (default 5); `GOOSE_SUBAGENT_MODEL` / `GOOSE_SUBAGENT_PROVIDER` to run helpers on a cheaper model. Subagents are off in Goose's manual-approval modes.
 
-**Exercise 2 — Generator + critic (10 min).** With the `critic` subagent installed (Claude) or in plain language (Goose):
+Open the three briefs in Obsidian. Notice the main session stayed short.
 
-> Draft a one-page proposal for <idea>. Then have the critic subagent tear it apart as a sceptical investor. Revise based on its critique. Show me both versions and what changed.
+---
 
-**Exercise 3 — Write your team roster (10 min).** Open [`config-examples/orchestration/TEAM.md`](../config-examples/orchestration/TEAM.md). It's a template for an orchestrator: which specialist handles what, and how work is checked. Adapt it to *your* work (a writer, a researcher, a fact-checker?). Put it in your vault, and point your instructions to it:
+## Level 2 — Named specialists (20 min)
 
-> When a task is big, read TEAM.md and dispatch to the right specialists.
+A **named subagent** is a Markdown file: a description (so the main agent knows *when* to call it), a list of allowed tools, and its instructions.
+
+| Agent | Where specialist files live |
+|---|---|
+| 🟣 Claude Code | `~/.claude/agents/<name>.md` (all projects) or `.claude/agents/<name>.md` (one project) |
+| 🪿 Goose | No fixed folder: keep role files in your vault and ask Goose to *"use a subagent with the instructions in <file>"*, or package the role as a **recipe** ([example](../config-examples/goose-recipes/research-brief.yaml)) |
+
+```markdown
+---
+name: fact-checker
+description: Rigorous fact-checker. ... Use whenever the user wants to check the reliability of a text...
+tools: Read, Glob, Grep, Write, WebSearch, WebFetch, Bash
+---
+
+You are a professional fact-checker, modelled on the verification desks of major newsrooms...
+```
+
+### Worked example: a skill that calls a subagent
+
+The pack includes a real, battle-tested pair:
+
+- **[`fact-checker`](../config-examples/subagents/fact-checker.md)** (the subagent): extracts every claim in a document, rates how critical each one is, checks each against independent sources by opening them, flags typical **AI mistakes** (invented sources, false precision, misattributed quotes, outdated data), and writes a report with a reliability score out of 10 and ready-to-paste corrections.
+- **[`fact-check`](../skills/fact-check/SKILL.md)** (the skill): what you type, `/fact-check <file or URL>`. It packages your request and hands it to the subagent.
+
+Why split it in two? The **skill** is the front door, short and cheap to keep loaded. The **subagent** does the heavy work on its own whiteboard: dozens of web pages read for verification never clutter your session. You only get back the score and the top corrections.
+
+**Install** (🟣): `.\setup\install-starter-skills.ps1` installs the skills *and* copies the pack's subagents into `~/.claude/agents/`. It never overwrites files you already have.
+
+**Try it:** ask your agent to write a short paragraph full of statistics on a topic you know, then: *"/fact-check what you just wrote."* Read the report. Agents are confident even when they're wrong, and this is your counterweight.
+
+### Other beginner specialists in the pack
+
+Written for this course, simple on purpose: **[researcher](../config-examples/subagents/researcher.md)** (sourced briefs), **[critic](../config-examples/subagents/critic.md)** (sceptical-investor review and pre-mortem) and **[note-keeper](../config-examples/subagents/note-keeper.md)** (files results into the vault). Try a **generator + critic** round:
+
+> Draft a one-page proposal for <idea>. Then have the critic subagent review it. Revise based on its critique, and show me what changed.
+
+For many more roles to read and adapt, see [VoltAgent's 100+ subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) (business, research, product…) and [ECC](https://github.com/affaan-m/ECC) (engineering).
+
+---
+
+## Level 3 — Case study: a real orchestrated team (30 min)
+
+Here is a setup that has actually been used to build and ship a web product. It shows what "advanced" looks like: not more agents, but **clear roles, the right model for each, and a gate that refuses work without proof.**
+
+### The team
+
+**Goose is the orchestrator.** It plans and dispatches to six specialists, each on a different model:
+
+| Specialist | Does | Model (example) | Why |
+|---|---|---|---|
+| **pm** | Specs, slices, acceptance criteria | DeepSeek V4 Flash: fast, cheap | Structuring, not hard reasoning |
+| **backend** | Data, business logic, APIs | Qwen3.6-35B: mid-size coder | Solid code at low cost |
+| **frontend** | Screens, charts | GLM-5.2: strong coder | UI bugs are visible; quality pays |
+| **uiux** | Design system, visual review at several screen sizes | Gemma 4: multimodal | Must look at screenshots |
+| **devops** | Build, deploy, infrastructure | Qwen3.6-35B | Procedural work |
+| **dogfood** | Uses the shipped product in a real browser, reports findings with screenshots | GLM-5.2 + browser automation | Judgement + real clicks |
+
+Plus an **on-demand library of 68 specialist personas** (architect, code reviewer, security reviewer…), adapted from ECC, called only when a core specialist needs depth.
+
+> 💡 This is where the Goose path shines: **each specialist can run on a different model and provider**, so you pay strong-model prices only where quality matters.
+
+### How it runs
+
+1. **Shared culture.** Every specialist receives the same short [CULTURE.md](../config-examples/orchestration/CULTURE.md): *build the doghouse, not the moonbase* (simplest thing that serves the user), *respect the altitude* (stay in your lane, report needs to the orchestrator), *proof over promises* ("I ran the tests and 658 passed" is proof, "it works" isn't).
+2. **Dispatch with full context.** Culture + role file + project context + the slice with its acceptance criteria. Specialists start empty, so the brief carries everything.
+3. **The QA gate.** Every builder must end its report with test evidence (for screens: browser screenshots and console errors). **No evidence → the orchestrator rejects the work and re-dispatches.** This single rule removes most "it's done!" hallucinations.
+4. **The dogfood loop.** After the gate, the dogfood specialist uses the product like a real person and reports what's broken or confusing. Findings go back to the pm for the next round.
+5. **Parallelisation rules.** Read-only work and writes to different files run in parallel. Writes to the same file, dependent work, and anything using the single shared browser run one at a time.
+
+```
+pm: criteria ──► builders (in parallel where safe) ──► QA gate ──► dogfood ──► findings ──► pm
+                        ▲                                 │
+                        └────── rejected: no evidence ◄───┘
+```
+
+### Your turn: write your roster
+
+Open **[TEAM.md](../config-examples/orchestration/TEAM.md)**. It's this team as a reusable template, with a **non-software variant** (planner, parallel researchers, writer, fact-checker, critic, test reader). Adapt it to *your* work, save it in your vault, and add to your global instructions:
+
+> When a task is big, read TEAM.md in my vault and act as the orchestrator.
+
+Then give it a real, multi-part task and watch it plan, dispatch and gate.
+
+---
 
 ## Check you got it
 
 - [ ] I can explain why a subagent's fresh whiteboard improves quality.
 - [ ] I can name the 5 orchestration patterns and pick one for a task.
 - [ ] I ran a fan-out and found the reports in my vault.
-- [ ] I know the main cost: a subagent only knows what I (or the main agent) tell it.
+- [ ] I fact-checked something an agent wrote.
+- [ ] I can explain the QA gate and why it matters.
+- [ ] I have a TEAM.md adapted to my own work.
 
 ## Pitfalls
 
-- **Vague hand-offs.** "Research X" gets a generic result. Say what to return, how long, with what sources, and where to save it.
-- **Over-orchestrating.** Five agents for a two-minute task is slower and more expensive. Delegate only when it clearly helps.
-- **Trusting without checking.** The orchestrator, which means you or the main agent, must review results against clear criteria. "Looks good" is not a criterion.
-- **Cost.** Each subagent uses its own tokens. Run helpers on cheaper models when the task is simple.
+- **Vague briefs.** Say what to return, how long, with what evidence, and where to save it.
+- **Over-orchestrating.** Five agents for a two-minute task is slower and more expensive.
+- **Accepting "done" without proof.** The gate is the whole point. "Looks good" is not a criterion.
+- **Parallel writes to the same file.** They overwrite each other. Serialise.
+- **Cost.** Each subagent uses its own tokens. Put simple roles on cheap models.
 
 ## How it connects
 
 - Subagents **read and write the vault** (03), so the team shares one memory.
-- A subagent can **use skills** (04) and **connectors** (05).
-- **Automation** (07) can launch an orchestrated job on a schedule: "every Monday, have the researcher scan news on X and brief me in my vault".
+- A subagent can be given specific **skills** (04) and **connectors** (05).
+- A team can run in a **loop** until a goal is met (07): that's how the case-study team worked through its backlog.
 
 ## Go deeper
 
-- ⭐ [Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents): the orchestration patterns, explained properly.
+- ⭐ [Anthropic — Building effective agents](https://www.anthropic.com/engineering/building-effective-agents)
 - [Claude Code — subagents](https://code.claude.com/docs/en/sub-agents) · [Goose — subagents](https://goose-docs.ai/docs/guides/context-engineering/subagents)
-- [VoltAgent — 100+ subagent roles](https://github.com/VoltAgent/awesome-claude-code-subagents): read a few to see how good roles are written.
+- [VoltAgent — 100+ subagent roles](https://github.com/VoltAgent/awesome-claude-code-subagents) · [ECC](https://github.com/affaan-m/ECC)

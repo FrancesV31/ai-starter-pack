@@ -20,7 +20,7 @@ This pack fixes those three problems with three ideas:
 |---|---|---|
 | "It forgets everything" | **Persistent memory** — a folder of notes (an Obsidian vault) that the agent reads at the start and updates at the end of every session | [03](modules/03-persistent-memory.md) |
 | "I can only do one thing at a time" | **Subagents & orchestration** — the agent hands pieces of work to helper agents, each with a clean head and one job | [06](modules/06-subagents-and-orchestration.md) |
-| "I still have to be there for everything" | **Automation** — saved workflows, loops and schedules that run the agent without you | [07](modules/07-automation.md) |
+| "I still have to be there for everything" | **Automation** — hooks and loops that keep the agent working without you pressing the button each time | [07](modules/07-automation.md) |
 
 By the end, your 10th session with an agent will be noticeably smarter than your 1st, because the agent will be reading what the first nine taught it.
 
@@ -48,8 +48,8 @@ By the end, your 10th session with an agent will be noticeably smarter than your
    │  sources → wiki pages → index → log             │     written at end
    └─────────────────────────────────────────────────┘
                           ▲
-                          │ runs the agent on a schedule, without you
-                    AUTOMATION (loops · hooks · schedules)
+                          │ keeps the agent going without you
+                    AUTOMATION (hooks · loops · parallel work · schedules)
 ```
 
 Every box is a plain file or folder on your computer. That is the big secret: **there is no magic, only text files that the agent reads.** Once you see that, you can inspect, fix and improve everything yourself.
@@ -64,7 +64,7 @@ Every module is written for both paths. You can switch later — the memory vaul
 |---|---|---|
 | What | Claude Code (Anthropic's agent) | Goose (open-source agent, Agentic AI Foundation) |
 | Model | Claude models | Any: Claude, GPT, Gemini, Mistral, local models via Ollama… |
-| Cost | Claude Pro/Max subscription (Claude Code isn't on the free plan) | Free app. Pay your model provider per use, or run a local model for free |
+| Cost | Claude Pro/Max subscription (Claude Code isn't on the free plan) | Free app. Pay your model provider per token, or run a local model for free. Claude models in Goose need an Anthropic API key, paid per token, separately from any Claude subscription |
 | Best for | Best out-of-the-box experience | Choosing your own model or provider, or keeping costs near zero |
 
 Not sure? Start with the Claude path if you already pay for Claude, otherwise the Goose path.
@@ -80,9 +80,9 @@ Not sure? Start with the Claude path if you already pay for Claude, otherwise th
 | 02 | [Standing instructions](modules/02-standing-instructions.md) | How agents learn who you are | Your profile file | 15 min |
 | 03 | ⭐ [Persistent memory with Obsidian](modules/03-persistent-memory.md) | The "LLM Wiki" pattern | A memory vault the agent maintains | 60 min |
 | 04 | [Skills: saved workflows](modules/04-skills.md) | Why skills are cheap and portable | 5–10 skills installed | 20 min |
-| 05 | [Connectors (MCP)](modules/05-connectors-mcp.md) | How agents reach your other tools | 1 connector | 15 min |
-| 06 | ⭐ [Subagents & orchestration](modules/06-subagents-and-orchestration.md) | Delegation, fresh context, specialist teams | Your first agent team | 45 min |
-| 07 | ⭐ [Automation](modules/07-automation.md) | Loops, hooks, headless runs, schedules | A weekly job that runs on its own | 45 min |
+| 05 | [Connectors (MCP)](modules/05-connectors-mcp.md) | How agents plug into other software, and what it costs in tokens | 1 connector | 25 min |
+| 06 | ⭐ [Subagents & orchestration](modules/06-subagents-and-orchestration.md) | Delegation, specialists, a real orchestrated team with a QA gate | A fact-checker + your team roster | 60 min |
+| 07 | ⭐ [Automation](modules/07-automation.md) | Hooks, loops, parallel work (schedules optional) | A loop that runs until done | 45 min |
 | 08 | [Putting it all together](modules/08-putting-it-together.md) | A real week of agent-assisted work | Your own operating system | 20 min |
 
 Each module follows the same shape: **Why it matters → The concept → Install / set up → Try it → Check you got it → How it connects → Go deeper.**
@@ -98,8 +98,8 @@ ai-starter-pack/
 ├── RESOURCES.md            ← the reading list (articles, guides, repos)
 ├── modules/                ← the course
 ├── vault-template/         ← an empty memory vault, ready to open in Obsidian
-├── skills/                 ← starter skills that operate the vault
-├── config-examples/        ← instruction templates, subagents, recipes, automation scripts
+├── skills/                 ← starter skills: the vault operations + fact-check
+├── config-examples/        ← instruction templates, subagents (incl. fact-checker), team roster, recipes, automation
 └── setup/                  ← scripts to check your install and copy the starter skills
 ```
 

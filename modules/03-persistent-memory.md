@@ -125,7 +125,7 @@ My persistent memory is an Obsidian vault at: <full path to your vault>
 
 ### 6. Install the vault skills (optional but recommended)
 
-This pack includes four small skills that encode the operations above: `vault-ingest`, `vault-query`, `vault-lint` and `session-wrap`. Module 04 explains skills. To install them now, run from the pack folder:
+This pack includes four small skills that encode the operations above: `vault-ingest`, `vault-query`, `vault-lint` and `session-wrap` (plus `fact-check`, covered in modules 04 and 06). Module 04 explains skills. To install them now, run from the pack folder:
 
 ```powershell
 .\setup\install-starter-skills.ps1
@@ -155,7 +155,7 @@ Then you can just type `/vault-ingest` instead of explaining the procedure each 
 - **Garbage in, garbage out.** The wiki is only as good as the sources you add. Curate.
 - **Insist on sources.** The schema requires every claim to link to a source. If the agent writes something without one, that's a lint error. This is your main defence against made-up facts.
 - **Review early ingests.** The first 5–10 times, read what the agent wrote and correct it. Then fix the *rules* in `AGENTS.md` so the mistake doesn't come back.
-- **Lint weekly.** Wikis rot: links break, pages duplicate, facts go stale. Module 07 automates this.
+- **Lint weekly.** Wikis rot: links break, pages duplicate, facts go stale. Module 07 shows how to loop or schedule it.
 - **Keep the index honest.** If `index.md` drifts from reality, the agent can't find things. The lint operation checks this.
 - **One vault.** Don't let two copies of your vault drift apart. Pick one folder and back it up.
 
@@ -173,7 +173,7 @@ Whatever is in the vault can end up in the context window, which means it's sent
 - **Standing instructions** (02) tell the agent the vault exists and how to use it.
 - **Skills** (04) turn ingest, query, lint and wrap into one-word commands.
 - **Subagents** (06) write their research reports into the vault, so the team shares one memory.
-- **Automation** (07) lints the vault and processes your inbox on a schedule, without you.
+- **Automation** (07): improvement loops write a summary to the vault after every cycle, and a scheduled job can lint the vault without you.
 
 ## Go deeper
 

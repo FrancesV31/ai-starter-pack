@@ -44,14 +44,15 @@ foreach ($dir in @((Join-Path $HOME ".claude\skills"), (Join-Path $HOME ".agents
     if (Test-Path $dir) { $n = @(Get-ChildItem $dir -Directory -ErrorAction SilentlyContinue).Count }
     Show ($n -gt 0) "Skills in $dir" "$n found"
 }
-$starter = @("vault-ingest", "vault-query", "vault-lint", "session-wrap")
+$starter = @("vault-ingest", "vault-query", "vault-lint", "session-wrap", "fact-check")
 $missing = @($starter | Where-Object { -not (Test-Path (Join-Path $HOME ".claude\skills\$_\SKILL.md")) })
-Show ($missing.Count -eq 0) "Starter vault skills" $(if ($missing.Count) { "missing: $($missing -join ', '); run .\setup\install-starter-skills.ps1" } else { "all 4 installed" })
+Show ($missing.Count -eq 0) "Starter skills" $(if ($missing.Count) { "missing: $($missing -join ', '); run .\setup\install-starter-skills.ps1" } else { "all $($starter.Count) installed" })
 
 Write-Host "`nSubagents (module 06)" -ForegroundColor Cyan
 $agentsDir = Join-Path $HOME ".claude\agents"
 $na = 0
 if (Test-Path $agentsDir) { $na = @(Get-ChildItem $agentsDir -Filter *.md -ErrorAction SilentlyContinue).Count }
 Show ($na -gt 0) "Claude custom subagents" "$na in $agentsDir"
+Show (Test-Path (Join-Path $agentsDir "fact-checker.md")) "fact-checker subagent" $(if (Test-Path (Join-Path $agentsDir "fact-checker.md")) { "installed" } else { "run .\setup\install-starter-skills.ps1" })
 
 Write-Host "`n[--] items are next steps, not errors. Re-run this script any time.`n"

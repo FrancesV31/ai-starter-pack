@@ -101,12 +101,13 @@ This is the big Goose advantage: you choose the brain. In the desktop app go to 
 | want the best quality per dollar | **Anthropic** (Claude via API key) or **OpenAI** | Pay per use. A few dollars covers this course |
 | want many models with one key | **OpenRouter** | Pay per use |
 | want a European provider | **Mistral** | Pay per use |
-| already pay for a Claude subscription | **Claude Code** (ACP provider; see note below) | Included in your subscription |
 | want free and private | **Ollama** (local model on your machine) | Free. Needs a recent computer; smaller models are less capable |
 
 > 🔑 **API keys are like credit-card numbers.** Paste them only into the app's settings, never into a chat or a document. Set a monthly spending limit in your provider's dashboard.
 
-> ℹ️ **Can Goose use Claude?** Yes, in two ways. (1) With an **Anthropic API key**: you pay per use, separately from any subscription. (2) Through the **Claude Code ACP provider**, which reuses your Claude subscription: install Claude Code (Path A) and the ACP adapter, then pick "Claude Code" as your Goose provider. The adapter needs Node.js, so that one is for later. See the [Goose ACP providers guide](https://goose-docs.ai/docs/guides/acp-providers).
+> ℹ️ **Can Goose use Claude?** Yes, with an **Anthropic API key**, **paid per token**. A Claude Pro/Max subscription does **not** cover it: the subscription pays for the Claude apps and Claude Code, while Goose talks to the paid-per-use API. If Claude is what you want and you already have a subscription, the Claude path is the cheaper choice.
+>
+> *Advanced, not tested for this course:* Goose documents a "Claude Code" adapter (ACP provider) that runs Claude Code underneath. It needs an extra Node.js install. See the [Goose ACP providers guide](https://goose-docs.ai/docs/guides/acp-providers) if you want to experiment.
 
 ### 4. Point Goose at your practice folder
 

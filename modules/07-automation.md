@@ -1,46 +1,35 @@
-# 07 — ⭐ Automation: let it run without you
+# 07 — ⭐ Automation: let the agent keep going without you
 
 ⏱ 45 min · [← Previous](06-subagents-and-orchestration.md) · [Next: Putting it together →](08-putting-it-together.md)
 
 ## Why it matters
 
-Until now, nothing happens unless you're at the keyboard. But much of the value of a memory vault and an agent team comes from **regular, boring work done reliably**: processing your inbox, checking the vault's health, a weekly briefing. Automation turns your agent from a tool you use into a system that works for you.
+So far, nothing happens unless you type. Every step waits for you: "now do this", "now check that", "keep going". **Automation means the agent keeps working without you pressing the button each time**, while you stay in control of the important decisions.
 
-## The concept: the automation ladder
+## The concept in one table
 
-Climb one rung at a time. Each rung builds on the one below.
+The only question that matters is: **who presses the button?**
 
-| Rung | What | Example | You need |
+| Kind | Who presses the button | Plain-English example | Section |
 |---|---|---|---|
-| 1. **Saved workflow** | A skill or recipe: the *how* is written down | `vault-lint` skill | Module 04 |
-| 2. **Loop** | Repeat until a goal is reached | "Keep fixing lint errors until there are none (max 5 rounds)" | A clear stop condition |
-| 3. **Hook** | Something runs automatically *when an event happens* | "When the agent finishes, play a sound" | A settings file |
-| 4. **Headless run** | Run the agent with one command, no chat window | `claude -p "Run the vault-lint skill"` | The CLI |
-| 5. **Schedule** | Run a headless job at set times | Every Monday 9:00 | A scheduler |
+| **Hook** | An **event** ("the agent just finished", "the agent is about to edit a file") | "When you finish, beep." / "Before you change any file, explain why." | 1 |
+| **Loop** | **The agent itself**, until a stop condition is met | "Keep improving this until all the checks pass, maximum 10 rounds." | 2 |
+| **Parallel / background work** | **The orchestrator**, which starts several helpers at once | "Run these 3 specialists at the same time and tell me when they're all done." | 3 |
+| **Schedule** *(optional)* | **The clock** | "Every Monday at 9:00, health-check my vault." | 4 |
 
-> 💡 **Automate only what you've done by hand at least three times and checked.** Automating a workflow you don't understand just produces mistakes faster.
+Hooks, loops and parallel work are the ones used day to day in the case-study setup from module 06. Schedules are a natural next step, but optional.
 
-### Concepts you'll meet
-
-- **Headless mode:** the agent runs from a single command, does the job, and exits. No chat. This is what schedulers call.
-- **Permissions in headless mode:** nobody is there to click "approve", so you decide up front which tools are allowed. Start with **read + write notes only**, never sending, deleting or buying.
-- **Cron:** a compact way to write schedules. `0 9 * * 1` means "minute 0, hour 9, any day of the month, any month, Monday". Goose's scheduler uses a version with a seconds field in front: `0 0 9 * * 1`.
+> 💡 **Automate only what you've done by hand and checked a few times.** Automating something you don't understand just produces mistakes faster.
 
 ---
 
-## Rung 2 — Loops
+## 1. Hooks: "when X happens, do Y" (🟣 Claude Code)
 
-Just ask, and always give a **stop condition** and a **maximum**:
+A **hook** is a rule attached to an event in the agent's life: the session starts, you send a message, the agent is about to use a tool, the agent just finished… Hooks are stored in `~/.claude/settings.json` (all projects) or `.claude/settings.json` (one project), and plugins can install their own. Type `/hooks` in Claude Code to see the ones you have.
 
-> Run the vault lint. Fix every issue you can fix safely, then lint again. Repeat until clean, maximum 3 rounds. List anything you couldn't fix.
+### Example A: a sound when the agent finishes (comfort)
 
-🟣 Claude Code also has a built-in `/loop` command that repeats a prompt on an interval (for example `/loop 10m check the inbox and ingest new files`) while the session is open. A plugin called **ralph-loop** keeps an agent working on one goal across many iterations. Powerful, but use it only with clear stop conditions.
-
-## Rung 3 — Hooks (🟣 Claude Code)
-
-Hooks live in `~/.claude/settings.json` (all projects) or `.claude/settings.json` (one project). Events include `SessionStart`, `UserPromptSubmit`, `PreToolUse`, `PostToolUse`, `Stop`, `SessionEnd` and more.
-
-**Starter hook: a sound when the agent finishes**, so you can do something else during long tasks. See [`config-examples/automation/claude-hooks-example.json`](../config-examples/automation/claude-hooks-example.json):
+Long tasks take minutes. A `Stop` hook plays a beep when the agent is done, so you can do something else meanwhile. See [`claude-hooks-example.json`](../config-examples/automation/claude-hooks-example.json):
 
 ```json
 {
@@ -53,82 +42,131 @@ Hooks live in `~/.claude/settings.json` (all projects) or `.claude/settings.json
 }
 ```
 
-On macOS, replace the command with `afplay /System/Library/Sounds/Glass.aiff`.
+On macOS, use `afplay /System/Library/Sounds/Glass.aiff` as the command. Easiest install: ask Claude Code *"Add a Stop hook to my user settings that plays a beep."*
 
-The easiest way to add it: ask Claude Code *"Add a Stop hook to my user settings that plays a beep"*, then type `/hooks` to see it. Hooks run real commands on your computer, so only add hooks you understand.
+### Example B: a guard that forces the agent to think first (safety)
 
-🪿 Goose doesn't use hooks the same way. Its equivalents are recipes plus the scheduler (below), and the *Top Of Mind* extension, which injects a reminder into every turn.
+The [ECC](https://github.com/affaan-m/ECC) plugin installs a guard hook called **GateGuard**. Before the agent creates or edits a file, or runs its first command, the hook **blocks the action** and makes the agent first state:
+- what you actually asked for (quoted word for word),
+- which other files depend on the file it's about to change,
+- what data it will read or write.
 
-## Rung 4 — Headless runs
+Only then can it retry. This stops a whole class of mistakes: editing the wrong file, inventing data structures, drifting away from the request.
 
-Try it by hand first, from inside your vault folder:
+**The trade-off is real.** While this course was being written, GateGuard fired dozens of times, once for every new file. It's safer, but slower and uses more tokens. Guards are worth it on important projects; you can exempt folders where they only add friction (ECC lets you list exempt paths).
 
-🟣 **Claude Code:**
+> A hook runs a real command on your computer. Only add hooks you understand, from sources you trust.
+
+🪿 **Goose** has no hooks in this sense. Its closest equivalent is the *Top Of Mind* extension, which injects a fixed reminder into every turn ("always state your plan before editing").
+
+---
+
+## 2. Loops: the agent presses the button itself
+
+A loop repeats work until a **stop condition** is met. Three levels:
+
+### Level 1: just ask (any agent)
+
+> Run the vault lint, fix every safe issue, then lint again. Repeat until it's clean, **maximum 3 rounds**. List anything you couldn't fix.
+
+Always give **a stop condition and a maximum**. Without them, a loop can run (and spend) much longer than you intended.
+
+### Level 2: the Ralph loop (🟣 Claude Code plugin)
+
+**ralph-loop** is an official Claude Code plugin. You give it a task once, and it uses a `Stop` hook (see section 1) to **feed the same prompt back every time the agent tries to finish**. The agent sees its own previous work in the files and keeps improving it, until it writes a "completion promise" you defined, or hits the maximum number of rounds.
+
+```
+/ralph-loop "Polish module 03 of my course until every exercise has a clear 'check you got it' list. Say <promise>DONE</promise> when finished." --completion-promise "DONE" --max-iterations 10
+```
+
+- Install: type `/plugin` in Claude Code, find **ralph-loop** in the official marketplace.
+- Stop it any time with `/cancel-ralph`.
+- On Windows its hook is a Bash script, so it needs **Git for Windows** installed (Claude Code recommends it anyway).
+- Best for work with an objective finish line: "all checks pass", "every page has X". Bad for vague goals like "make it better", which never finish.
+
+### Level 3: a written improvement loop (case study, any agent)
+
+The most powerful loop isn't a plugin. It's **a process document the orchestrator follows**, cycle after cycle, until the backlog is done. The team from module 06 used one with six phases:
+
+| Phase | Who | What happens |
+|---|---|---|
+| **1. Scan** | dogfood + uiux | Test the product, score it against written design principles, list findings |
+| **2. Plan** | pm | Pick the next batch of backlog items, split them into slices for specialists |
+| **3. Build** | builders, in parallel where safe | Implement the slices; each must report test evidence |
+| **4. Verify** | orchestrator | QA gate: tests pass, the targeted principles are now met. **Max 3 retries per slice**, then escalate to the human |
+| **5. Human review** | **you** | The only mandatory human step: open the product, click through, give design feedback |
+| **6. Dogfood + reflect** | dogfood + orchestrator | Use it as a real user, compare scores with the last cycle, mark the batch done, **write a cycle summary to the vault** |
+
+Then it starts again with the next batch, **until every backlog item is done**. That's the stop condition.
+
+What makes it safe enough to run on its own:
+- **Escalation gates:** the loop stops and asks you when a slice fails 3 times, when the same problem comes back 3 cycles in a row, when there's no progress across 3 batches, or when a strategic decision is needed.
+- **Human gate on taste:** the one thing models judge badly (does this *feel* right?) stays with you.
+- **Memory after every cycle:** each cycle writes its summary to the vault, so the next cycle, or a new session, knows what happened.
+
+You can write the same kind of loop for non-software work: *scan* a document against criteria → *plan* fixes → *write* → *fact-check* (QA gate) → *your review* → *reflect and log*.
+
+---
+
+## 3. Parallel and background work
+
+When the orchestrator dispatches several specialists at once (module 06), it doesn't wait for each one before starting the next:
+
+- 🪿 **Goose:** the `delegate` tool has an `async: true` option. The orchestrator starts several specialists and collects their reports as they finish.
+- 🟣 **Claude Code:** ask for subagents "in parallel"; they can run in the background while you keep talking to the main agent.
+
+The rules from [TEAM.md](../config-examples/orchestration/TEAM.md) apply: parallel only for read-only work or for writes to *different* files.
+
+---
+
+## 4. Optional next step: schedules (the clock presses the button)
+
+None of the above needs a schedule. But once a workflow is reliable, you can run it at fixed times, for example a weekly vault health check. Two ingredients:
+
+**a) A headless run:** the agent runs from one command, does the job and exits, with no chat window. Try it by hand first, from your vault folder:
+
 ```powershell
-cd "<path to your vault>"
 claude -p "Run the vault-lint skill and write the report to sessions/." --allowedTools "Read,Write,Edit,Glob,Grep"
 ```
-*What this is: `-p` = run this one prompt and exit; `--allowedTools` = the only tools it may use without asking. Here it can read and write notes, but not run commands or browse.*
-
-🪿 **Goose:**
 ```powershell
-cd "<path to your vault>"
 goose run -t "Lint this vault following AGENTS.md and write the report to sessions/."
 ```
-Or run a recipe: `goose run --recipe weekly-vault-lint.yaml --params vault_path="<path>"`.
+*What this is: `-p` / `run -t` = run this one prompt and exit. `--allowedTools` = the only tools Claude may use, since nobody is there to approve anything. Here it can read and write notes, but can't run commands or browse.*
 
-Check the report it wrote. **If it's not good when you're watching, it won't be good at 9am on Monday.**
+**b) A scheduler:**
+- 🪿 **Goose** has one built in: sidebar → **Scheduler** → **Create Schedule**, using the ready-made recipe [`weekly-vault-lint.yaml`](../config-examples/goose-recipes/weekly-vault-lint.yaml) (set your vault path in it first). Or from the CLI:
+  ```powershell
+  goose schedule add --schedule-id weekly-lint --cron "0 0 9 * * 1" --recipe-source .\weekly-vault-lint.yaml
+  ```
+  `goose schedule run-now --schedule-id weekly-lint` tests it immediately; `goose schedule remove --schedule-id weekly-lint` deletes it. *(Cron is a compact way to write times; `0 0 9 * * 1` = second 0, minute 0, 9 o'clock, every Monday.)*
+- 🟣 **Claude:** ask the Claude desktop app to create a scheduled task, or use Windows Task Scheduler with the runner script [`run-weekly-lint.ps1`](../config-examples/automation/run-weekly-lint.ps1) (instructions inside the file).
 
-## Rung 5 — Schedules
+Check the first few reports carefully. **If it isn't good when you're watching, it won't be good at 9:00 on Monday.**
 
-### 🪿 Goose — built-in scheduler (easiest)
+---
 
-1. Copy [`config-examples/goose-recipes/weekly-vault-lint.yaml`](../config-examples/goose-recipes/weekly-vault-lint.yaml) and set your vault path as the parameter's default.
-2. **Desktop:** sidebar → **Recipes** → import or open the recipe → **Create Schedule**. Or sidebar → **Scheduler** → **Create Schedule**.
-   **CLI:**
-   ```powershell
-   goose schedule add --schedule-id weekly-lint --cron "0 0 9 * * 1" --recipe-source .\weekly-vault-lint.yaml
-   goose schedule list
-   goose schedule run-now --schedule-id weekly-lint
-   ```
-   `run-now` tests it immediately. Do this before you trust the schedule.
+## Try it (25 min)
 
-### 🟣 Claude Code — three options
-
-- **Ask the desktop app.** In the Claude desktop app you can ask Claude to create a **scheduled task** ("every Monday at 9, lint my vault"). It runs while the app is open.
-- **Cloud routines (`/schedule`).** These run on Anthropic's servers even when your computer is off. They work on a GitHub repository, so they suit a vault backed up to a private GitHub repo.
-- **Your computer's scheduler.** Works for both agents, and runs even when no app is open:
-  - **Windows Task Scheduler:** use the runner script [`config-examples/automation/run-weekly-lint.ps1`](../config-examples/automation/run-weekly-lint.ps1). Edit the vault path at the top, then register it once:
-    ```powershell
-    schtasks /create /tn "Weekly vault lint" /sc weekly /d MON /st 09:00 /tr "powershell -NoProfile -ExecutionPolicy Bypass -File C:\path\to\run-weekly-lint.ps1"
-    ```
-    *What this is: `schtasks` is Windows' built-in scheduler. `/sc weekly /d MON /st 09:00` = every Monday at 09:00.* Test it now with `schtasks /run /tn "Weekly vault lint"`, and remove it with `schtasks /delete /tn "Weekly vault lint"`.
-  - **macOS:** use `cron` (`crontab -e`, then add `0 9 * * 1 cd "/path/to/vault" && claude -p "Run the vault-lint skill…" --allowedTools "Read,Write,Edit,Glob,Grep"`) or a calendar-triggered Shortcut.
-
-## Try it (25 min) — your first automated job
-
-1. Run the lint **by hand** in a session. Read the report. Adjust `AGENTS.md` if it flagged things wrongly.
-2. Run it **headless** (rung 4). Compare it with the hand-run report.
-3. **Schedule it** weekly (rung 5), and use `run-now` / `schtasks /run` to test it immediately.
-4. Next Monday, open `sessions/` and find the report waiting for you.
-
-**Stretch goal — the inbox processor:** a daily job that ingests whatever you clipped into `inbox/` the day before. Copy the lint recipe and change the prompt to "Ingest every file in inbox/ following AGENTS.md, then list what you added."
+1. **Hook:** add the finish beep. Start a long task and walk away until you hear it.
+2. **Loop:** run a level-1 loop on your vault ("lint, fix, repeat, max 3 rounds"). If you're on Claude Code, try one Ralph loop with a clear finish line and `--max-iterations 5`.
+3. **Write your own improvement loop:** take a recurring piece of work (a weekly report, a newsletter, a product). Write its phases, its QA gate, where *you* step in, and its stop condition, in a note in your vault. That document *is* the automation: next time, tell the agent "run one cycle of <note>".
+4. *(Optional)* Schedule the weekly lint and test it with `run-now`.
 
 ## 🔒 Automation safety checklist
 
-- [ ] The job does something I've done by hand and checked at least 3 times.
-- [ ] Its allowed tools are the minimum needed (read/write notes; no shell, no sending, no deleting).
-- [ ] It writes a **report** to the vault every run, so I can see what it did.
-- [ ] I've tested it with "run now" before trusting the schedule.
-- [ ] I know how to stop it (`goose schedule remove …` / `schtasks /delete …`).
-- [ ] I check its reports weekly, at least for the first month.
-- [ ] It never processes untrusted content (random emails, unknown websites) with write or send permissions. That's how prompt injection does damage.
+- [ ] Every loop has a **stop condition and a maximum**.
+- [ ] I know how to stop it (`/cancel-ralph`, closing the session, `goose schedule remove …`).
+- [ ] The human checks the things models judge badly (taste, strategy, anything irreversible).
+- [ ] Every cycle or run writes a **report to the vault**, so I can see what it did.
+- [ ] Unattended runs get the minimum tools: read/write notes, no sending, no deleting, no payments.
+- [ ] Nothing automated processes untrusted content (random emails, unknown websites) with write or send permissions.
 
 ## How it connects
 
-Automation is where everything pays off: **skills** (04) define the job, **memory** (03) holds the inputs and receives the reports, **subagents** (06) can do the heavy lifting inside the job, and **connectors** (05) bring in fresh data.
+Automation is where everything pays off: **skills** (04) define the work, **memory** (03) carries results from one cycle to the next, **subagents and the team** (06) do the work inside each cycle, and **connectors** (05) bring in fresh data.
 
 ## Go deeper
 
-- [Claude Code — headless mode](https://code.claude.com/docs/en/headless) · [hooks guide](https://code.claude.com/docs/en/hooks-guide)
+- [Claude Code — hooks guide](https://code.claude.com/docs/en/hooks-guide) · [headless mode](https://code.claude.com/docs/en/headless)
 - [Goose — recipes](https://goose-docs.ai/docs/guides/recipes/session-recipes) · [CLI commands, including `schedule`](https://goose-docs.ai/docs/guides/goose-cli-commands)
+- [ECC](https://github.com/affaan-m/ECC) (GateGuard and other hooks)

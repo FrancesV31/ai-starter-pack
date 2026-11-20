@@ -60,8 +60,8 @@ From the pack folder, in PowerShell:
 .\setup\install-starter-skills.ps1
 ```
 
-This copies `vault-ingest`, `vault-query`, `vault-lint` and `session-wrap` into `~/.claude/skills/`. It never overwrites a skill you already have.
-*(On macOS, copy the four folders from `skills/` into `~/.claude/skills/` with Finder.)*
+This copies five skills into `~/.claude/skills/`: the four vault operations (`vault-ingest`, `vault-query`, `vault-lint`, `session-wrap`) and **`fact-check`**, which verifies a document's claims against web sources (it works together with a subagent, see module 06). It also copies the pack's subagents into `~/.claude/agents/`. It never overwrites anything you already have.
+*(On macOS, copy the folders from `skills/` into `~/.claude/skills/` and the files from `config-examples/subagents/` into `~/.claude/agents/` with Finder.)*
 
 ### 2. Install Matt Pocock's skills (recommended)
 
@@ -95,6 +95,10 @@ Think of a request you've typed three times. Then:
 > Create a skill called `<name>` in ~/.claude/skills that does the following: <your workflow>. Write a description that says clearly when to use it.
 
 Open the `SKILL.md` it created, read it, and adjust it. You've just taught your agent a permanent new ability.
+
+### A skill can hand off to a subagent
+
+`fact-check` is only a few lines long: it packages your request and hands it to the `fact-checker` subagent, which does the heavy research on its own whiteboard. Try `/fact-check <a file or URL>` now, or wait for module 06, which explains the pattern.
 
 ## Check you got it
 

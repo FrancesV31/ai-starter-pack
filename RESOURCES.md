@@ -48,6 +48,8 @@ Curated, not exhaustive. ⭐ = read this one first.
 
 - **Claude Code — headless mode (docs).** Running Claude from a script or a schedule.
   https://code.claude.com/docs/en/headless
+- **Ralph loop plugin (official Claude Code plugins).** Keeps an agent iterating on one task until a stated finish line. Find it with `/plugin` in Claude Code.
+  https://github.com/anthropics/claude-plugins-official
 - **Claude Code — hooks guide (docs).**
   https://code.claude.com/docs/en/hooks-guide
 - **Goose — recipes (docs).**
@@ -55,6 +57,16 @@ Curated, not exhaustive. ⭐ = read this one first.
 
 ## Connectors (MCP)
 
+- ⭐ **MCP — official introduction.** What the Model Context Protocol is, from the people who maintain it.
+  https://modelcontextprotocol.io/introduction
+- **Official MCP Registry.** The neutral catalogue of published MCP servers.
+  https://registry.modelcontextprotocol.io
+- **Claude connectors directory.** 1,000+ connectors and plugins, one click to add in Claude.
+  https://claude.com/connectors
+- **Goose extensions directory.**
+  https://goose-docs.ai/extensions
+- **Claude Code — managing costs (docs).** Includes how to see what fills your context window (`/context`).
+  https://code.claude.com/docs/en/costs
 - **Claude Code — MCP (docs).**
   https://code.claude.com/docs/en/mcp
 - **Goose — using extensions (docs).**

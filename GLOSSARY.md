@@ -31,10 +31,16 @@ Plain-English definitions, in the order you'll meet them in the course.
 | **Subagent** | A helper agent your main agent starts for one job. It gets a fresh, empty context, does the work, and returns only a short report. |
 | **Orchestration** | Coordinating several agents: who does what, in what order, and how results are combined and checked. |
 | **Orchestrator** | The agent (or you) that splits the work, dispatches it, and reviews results. |
+| **Culture file** | A short list of shared working principles the orchestrator gives to every specialist, so a team of fresh-context agents behaves consistently. |
+| **QA gate** | A checkpoint where the orchestrator refuses any work that comes back without proof (test results, screenshots, sources). |
+| **Dogfooding** | Using your own product as a real user would, to find what's broken or confusing. A "dogfood" agent does this automatically. |
+| **Fact-check** | Checking each claim in a document against independent sources. Essential for AI-written text, which can invent sources. |
 | **Recipe (Goose)** | A saved, reusable workflow file (YAML) with instructions, a prompt, settings and parameters. It can be run, shared or scheduled. |
 | **Headless mode** | Running an agent with a single command and no chat window (`claude -p "…"`, `goose run -t "…"`). Needed for automation. |
 | **Hook** | A rule that runs automatically when something happens in the agent (e.g. "when you finish, play a sound"). |
-| **Loop** | Running the same prompt repeatedly until a goal is met or a limit is reached. |
+| **Loop** | Running the same prompt repeatedly until a goal is met or a limit is reached. Always give it a stop condition and a maximum. |
+| **Ralph loop** | A Claude Code plugin that feeds the same task back to the agent each time it tries to stop, until it declares a pre-agreed finish line. |
+| **Escalation gate** | A rule that stops an automated loop and asks the human (e.g. "the same step failed 3 times"). |
 | **Schedule / cron** | Running a task at fixed times ("every Monday at 9:00"). Cron is the classic notation for writing those times. |
 | **Permission mode** | How much the agent may do without asking you. Start strict, loosen as trust grows. |
 | **Prompt injection** | Hidden instructions inside a web page, email or document that try to make the agent do something you didn't ask. A key reason to keep permissions tight. |
