@@ -12,6 +12,9 @@ Curated, not exhaustive. ⭐ = read this one first. For **tools** (other agents,
   https://goose-docs.ai
 - **Goose — supported providers.** Which models you can plug in, and how.
   https://goose-docs.ai/docs/getting-started/providers
+- **Hermes Agent — documentation.** A popular open-source personal agent that keeps a memory of you and writes its own skills: a good look at where "memory + skills" goes next.
+  https://hermes-agent.nousresearch.com/docs
+- **The author's setup.** How all the pieces of this course fit together in one real stack: [MY-SETUP.md](MY-SETUP.md)
 
 ## Persistent memory & Obsidian
 

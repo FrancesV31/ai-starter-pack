@@ -96,18 +96,20 @@ ai-starter-pack/
 ├── README.md               ← you are here
 ├── GLOSSARY.md             ← every term, in plain English
 ├── RESOURCES.md            ← the reading list (articles, guides, repos)
-├── TOOLBOX.md              ← alternatives & add-ons: other agents, terminals, Herdr, memory plugins, models, helpers
+├── MY-SETUP.md             ← the author's real, working stack, layer by layer
+├── TOOLBOX.md              ← everything else, by need: agents (incl. Hermes, OpenClaw), connectors, skills, automation…
 ├── guides/ecc.md           ← the ECC library: install options + ~30 curated skills for non-developers
 ├── modules/                ← the course
 ├── vault-template/         ← an empty memory vault, ready to open in Obsidian
-├── skills/                 ← starter skills: the vault operations + fact-check
+├── skills/                 ← 11 starter skills: vault operations, fact-check, thinking (shape, critique, market, prd…)
 ├── config-examples/        ← instruction templates, subagents (incl. fact-checker), team roster, recipes, automation
 └── setup/                  ← scripts: check your install, copy the starter skills, fetch ECC skills
 ```
 
 ## After the course
 
-- **[TOOLBOX.md](TOOLBOX.md):** the wider map. Other agents (Cowork, OpenCode, Codex, Gemini CLI, Cursor…), better terminals, tools to run several agents side by side (Herdr, Claude Squad, Conductor), Obsidian AI plugins, local models, dictation, cost tracking, browser automation. It ends with an upgrade path: "when you notice X, add Y".
+- **[MY-SETUP.md](MY-SETUP.md):** what the author actually runs every day (agents, memory, ~60 skills, plugins, connectors, a multi-model agent team, automation), what was tried and dropped, and the order to copy it in.
+- **[TOOLBOX.md](TOOLBOX.md):** the wider map, organised by need ("I want my agent to remember…", "…talk to my apps", "…run without me"). Every entry is labelled ✅ in the author's setup, 🧪 tried, or ➕ worth adding: 26 agents (including Hermes Agent, OpenClaw, Codex, Cursor), connectors by category, skill libraries and plugins, multi-agent tools (Herdr, OpenRig), browser control, n8n/Zapier, models, dictation and safety. It ends with an upgrade path: "when you notice X, add Y".
 - **[guides/ecc.md](guides/ecc.md):** how to get value from the largest open-source skill library without drowning your agent.
 
 ## How to use this pack

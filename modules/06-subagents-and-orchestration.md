@@ -171,12 +171,15 @@ Subagents run *inside* one session. Sometimes you'll want several **separate ses
 | Need | Tool |
 |---|---|
 | A few sessions, no setup | The Claude desktop app or Goose Desktop: open several sessions |
-| See at a glance which agent is working, idle or waiting; keep sessions alive when you close the laptop | **[Herdr](https://herdr.dev)**, an agent-aware workspace manager for the terminal (Windows via WSL) |
+| See at a glance which agent is working, idle or waiting; keep sessions alive when you close the laptop | **[Herdr](https://herdr.dev)**, an agent-aware workspace manager for the terminal |
+| Start, watch and stop a whole team (roles, harnesses, models) as one unit | **[OpenRig](https://openrig.dev)**, a local control plane for multi-agent setups |
 | Each agent on its own copy of the project | **Git worktrees**, managed for you by **[Claude Squad](https://github.com/smtg-ai/claude-squad)**, **dmux** or **ccmanager** |
 | A visual dashboard (Mac) | **[Conductor](https://conductor.build)** |
 | Hand ECC's specialist agents to a team in one go | ECC's `team-builder` skill ([ECC guide](../guides/ecc.md)) |
 
 Details and alternatives are in the [Toolbox](../TOOLBOX.md#3-running-several-agents-side-by-side). The same rules apply as in TEAM.md: never let two agents write to the same file at the same time.
+
+**A different shape of agent: always-on assistants.** Everything above is *you* starting agents. **[Hermes Agent](https://hermes-agent.nousresearch.com)** and **[OpenClaw](https://github.com/openclaw/openclaw)** flip it: one agent runs all the time, you message it from Telegram or Slack, and it starts its own subagents. Hermes also **writes its own skills** when it solves a hard problem: the "write a skill when you've done it three times" habit from module 04, automated. Interesting once your vault and skills are solid; see the [Toolbox](../TOOLBOX.md#personal-always-on-agents-you-message-them-like-a-contact).
 
 ---
 

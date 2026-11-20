@@ -48,5 +48,8 @@ Plain-English definitions, in the order you'll meet them in the course.
 | **Multiplexer** | A tool that splits one terminal window into many sessions that keep running in the background, even when you close the window (tmux, Zellij, Herdr). |
 | **Git worktree** | A second working copy of the same project, managed by Git, so two agents can work in parallel without touching the same files. |
 | **WSL** | Windows Subsystem for Linux: runs Linux inside Windows, so Linux-first tools work on a Windows PC. |
+| **Plugin (Claude Code)** | A bundle that installs several things at once: skills, subagents, hooks and connectors. Added with `/plugin`. |
+| **Personal (always-on) agent** | An agent that runs all the time on your computer or a server, remembers you, and that you message from a chat app (Hermes Agent, OpenClaw). |
+| **Control plane** | A dashboard or tool that starts, watches and stops many agents as one system (e.g. OpenRig). |
 | **Local model** | A model running on your own computer (via Ollama or LM Studio): free and private, usually less capable than the big cloud models. |
 | **Git / GitHub** | Git tracks versions of files (a time machine for folders). GitHub hosts them online. Useful for backing up your vault and sharing skills. |

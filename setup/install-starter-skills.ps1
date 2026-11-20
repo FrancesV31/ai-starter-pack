@@ -1,5 +1,5 @@
 # install-starter-skills.ps1 - copies this pack's starter skills and subagents into your agent folders.
-#   Skills    -> ~/.claude/skills  (read by Claude Code AND by Goose)
+#   Skills    -> ~/.claude/skills  (read by Claude Code AND by Goose): vault, fact-check and thinking skills
 #   Subagents -> ~/.claude/agents  (Claude Code; Goose users point to the files instead, see module 06)
 # It never overwrites anything you already have.
 #

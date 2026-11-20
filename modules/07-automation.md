@@ -55,6 +55,8 @@ Only then can it retry. This stops a whole class of mistakes: editing the wrong 
 
 **The trade-off is real.** While this course was being written, GateGuard fired dozens of times, once for every new file. It's safer, but slower and uses more tokens. Guards are worth it on important projects; you can exempt folders where they only add friction (ECC lets you list exempt paths).
 
+Lighter alternatives exist: **[cc-safety-net](https://github.com/kenryu42/claude-code-safety-net)** only blocks clearly destructive commands (mass deletes, force pushes) and stays silent otherwise. Pick **one** guard: two overlapping guards just double the friction.
+
 > A hook runs a real command on your computer. Only add hooks you understand, from sources you trust.
 
 🪿 **Goose** has no hooks in this sense. Its closest equivalent is the *Top Of Mind* extension, which injects a fixed reminder into every turn ("always state your plan before editing").
@@ -146,6 +148,12 @@ goose run -t "Lint this vault following AGENTS.md and write the report to sessio
 - 🟣 **Claude:** ask the Claude desktop app to create a scheduled task, or use Windows Task Scheduler with the runner script [`run-weekly-lint.ps1`](../config-examples/automation/run-weekly-lint.ps1) (instructions inside the file).
 
 Check the first few reports carefully. **If it isn't good when you're watching, it won't be good at 9:00 on Monday.**
+
+**When the trigger lives outside your agent** ("when a form is submitted", "when an email arrives"), two other families exist:
+- **Workflow tools** such as **[n8n](https://n8n.io)**, **[Zapier](https://zapier.com)** or **[Make](https://www.make.com)**: boxes and arrows you connect visually, now with AI steps. Good for business plumbing between apps.
+- **Always-on personal agents** such as **[Hermes Agent](https://hermes-agent.nousresearch.com)** or **[OpenClaw](https://github.com/openclaw/openclaw)**: they run all the time, have their own schedulers, and you trigger them by sending a message from your phone. Powerful, and they hold a lot of access: read their security docs first.
+
+See the [Toolbox](../TOOLBOX.md#8-automation-without-you-pressing-the-button).
 
 ---
 

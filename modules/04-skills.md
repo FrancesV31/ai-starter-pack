@@ -60,7 +60,20 @@ From the pack folder, in PowerShell:
 .\setup\install-starter-skills.ps1
 ```
 
-This copies five skills into `~/.claude/skills/`: the four vault operations (`vault-ingest`, `vault-query`, `vault-lint`, `session-wrap`) and **`fact-check`**, which verifies a document's claims against web sources (it works together with a subagent, see module 06). It also copies the pack's subagents into `~/.claude/agents/`. It never overwrites anything you already have.
+This copies eleven skills into `~/.claude/skills/`. It also copies the pack's subagents into `~/.claude/agents/`. It never overwrites anything you already have.
+
+| Group | Skills | What they do |
+|---|---|---|
+| **Vault** (module 03) | `vault-ingest`, `vault-query`, `vault-lint`, `session-wrap` | Add sources, ask questions, health-check, save the session |
+| **Verification** (module 06) | `fact-check` | Checks a document's claims against web sources, with the help of a subagent |
+| **Thinking** | `shape` | Interviews you about a rough idea, one question at a time, then writes a one-page brief |
+| | `critique` | Skeptical-investor review and pre-mortem of a plan, ending with the cheapest test to run this week |
+| | `market` | Fast competitive scan with sources: players, gaps, signals, risks |
+| | `prd` | Turns a brief into a product requirements document with user stories and success metrics |
+| | `explain` | Explains anything with a plain definition, an example and an analogy |
+| | `recap` | "Where are we?": goal, done, next |
+
+The thinking skills come straight from the author's own setup ([MY-SETUP.md](../MY-SETUP.md)). They chain well: **`shape` → `critique` → `market` → `prd`** takes a shower thought to a spec in one sitting. Type `/shape my idea for…` to start.
 *(On macOS, copy the folders from `skills/` into `~/.claude/skills/` and the files from `config-examples/subagents/` into `~/.claude/agents/` with Finder.)*
 
 ### 2. Install Matt Pocock's skills (recommended)

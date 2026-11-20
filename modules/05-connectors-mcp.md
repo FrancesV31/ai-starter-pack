@@ -62,6 +62,14 @@ Since MCP became a standard, thousands of servers have been published. Almost ev
 
 > ⚠️ **Prefer official servers** published by the vendor itself, or listed in the directories above. A server can see whatever you give it access to, so an unknown one from a random website is a security risk.
 
+### A real example: what the author connects
+
+| Always on | On demand (comes with a plugin, authorised only when a task needs it) |
+|---|---|
+| Google Drive, Google Calendar, Context7 (docs), Mobbin (app screens), Claude in Chrome | Notion, Figma, Linear, Slack, Asana, Atlassian, Amplitude, Similarweb, Fireflies… |
+
+The right-hand column is the trick: **plugins can bring a dozen connectors, but an unauthorised connector adds almost nothing to the whiteboard.** Goose users get a similar toolbox built in: Developer, Computer Controller, Memory, Chat Recall, Auto Visualiser, Todo. The full list, by category, is in the [Toolbox](../TOOLBOX.md#6-connectors-mcp-by-category); the whole setup is in [MY-SETUP.md](../MY-SETUP.md).
+
 ### ⚠️ The hidden cost: connectors eat your context window
 
 This is the part most guides skip. Remember the whiteboard from module 00: everything the agent "sees" takes space and costs tokens. Connectors add to it in **two ways**:

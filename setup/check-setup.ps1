@@ -44,7 +44,8 @@ foreach ($dir in @((Join-Path $HOME ".claude\skills"), (Join-Path $HOME ".agents
     if (Test-Path $dir) { $n = @(Get-ChildItem $dir -Directory -ErrorAction SilentlyContinue).Count }
     Show ($n -gt 0) "Skills in $dir" "$n found"
 }
-$starter = @("vault-ingest", "vault-query", "vault-lint", "session-wrap", "fact-check")
+$starter = @("vault-ingest", "vault-query", "vault-lint", "session-wrap", "fact-check",
+             "shape", "critique", "market", "prd", "explain", "recap")
 $missing = @($starter | Where-Object { -not (Test-Path (Join-Path $HOME ".claude\skills\$_\SKILL.md")) })
 Show ($missing.Count -eq 0) "Starter skills" $(if ($missing.Count) { "missing: $($missing -join ', '); run .\setup\install-starter-skills.ps1" } else { "all $($starter.Count) installed" })
 
