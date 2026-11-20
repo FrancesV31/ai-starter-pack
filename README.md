@@ -96,12 +96,19 @@ ai-starter-pack/
 ├── README.md               ← you are here
 ├── GLOSSARY.md             ← every term, in plain English
 ├── RESOURCES.md            ← the reading list (articles, guides, repos)
+├── TOOLBOX.md              ← alternatives & add-ons: other agents, terminals, Herdr, memory plugins, models, helpers
+├── guides/ecc.md           ← the ECC library: install options + ~30 curated skills for non-developers
 ├── modules/                ← the course
 ├── vault-template/         ← an empty memory vault, ready to open in Obsidian
 ├── skills/                 ← starter skills: the vault operations + fact-check
 ├── config-examples/        ← instruction templates, subagents (incl. fact-checker), team roster, recipes, automation
-└── setup/                  ← scripts to check your install and copy the starter skills
+└── setup/                  ← scripts: check your install, copy the starter skills, fetch ECC skills
 ```
+
+## After the course
+
+- **[TOOLBOX.md](TOOLBOX.md):** the wider map. Other agents (Cowork, OpenCode, Codex, Gemini CLI, Cursor…), better terminals, tools to run several agents side by side (Herdr, Claude Squad, Conductor), Obsidian AI plugins, local models, dictation, cost tracking, browser automation. It ends with an upgrade path: "when you notice X, add Y".
+- **[guides/ecc.md](guides/ecc.md):** how to get value from the largest open-source skill library without drowning your agent.
 
 ## How to use this pack
 

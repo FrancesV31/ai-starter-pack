@@ -1,6 +1,6 @@
 # Resources — the reading list
 
-Curated, not exhaustive. ⭐ = read this one first.
+Curated, not exhaustive. ⭐ = read this one first. For **tools** (other agents, terminals, plugins, models), see [TOOLBOX.md](TOOLBOX.md). For the ECC library, see the [ECC guide](guides/ecc.md).
 
 ## Understanding agents
 
@@ -37,6 +37,8 @@ Curated, not exhaustive. ⭐ = read this one first.
 
 ## Subagents
 
+- **Anthropic — skills.** Official example skills (documents, spreadsheets, presentations, design and more): good models for writing your own.
+  https://github.com/anthropics/skills
 - **VoltAgent — awesome Claude Code subagents.** 100+ ready-made specialist subagents (research, product, business, engineering). Good for reading how others write agent roles.
   https://github.com/VoltAgent/awesome-claude-code-subagents
 - **Claude Code — subagents (docs).**

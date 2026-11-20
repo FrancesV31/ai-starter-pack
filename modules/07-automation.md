@@ -117,6 +117,10 @@ When the orchestrator dispatches several specialists at once (module 06), it doe
 
 The rules from [TEAM.md](../config-examples/orchestration/TEAM.md) apply: parallel only for read-only work or for writes to *different* files.
 
+When you keep several long sessions running at once, a workspace manager like **[Herdr](https://herdr.dev)** shows which one is waiting for you, and keeps them running in the background, even on a remote server. See [module 06](06-subagents-and-orchestration.md#running-several-agents-side-by-side) and the [Toolbox](../TOOLBOX.md#3-running-several-agents-side-by-side).
+
+ECC adds loop and safety tooling worth knowing: `continuous-agent-loop` (quality gates and recovery for long loops), `santa-method` (two independent reviewers must both approve before anything ships), and `safety-guard` (confirm dangerous commands, lock writes to one folder). See the [ECC guide](../guides/ecc.md).
+
 ---
 
 ## 4. Optional next step: schedules (the clock presses the button)

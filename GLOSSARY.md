@@ -44,4 +44,9 @@ Plain-English definitions, in the order you'll meet them in the course.
 | **Schedule / cron** | Running a task at fixed times ("every Monday at 9:00"). Cron is the classic notation for writing those times. |
 | **Permission mode** | How much the agent may do without asking you. Start strict, loosen as trust grows. |
 | **Prompt injection** | Hidden instructions inside a web page, email or document that try to make the agent do something you didn't ask. A key reason to keep permissions tight. |
+| **TUI (text user interface)** | A menu-style app that runs inside the terminal, with panels and keyboard shortcuts instead of plain text output. |
+| **Multiplexer** | A tool that splits one terminal window into many sessions that keep running in the background, even when you close the window (tmux, Zellij, Herdr). |
+| **Git worktree** | A second working copy of the same project, managed by Git, so two agents can work in parallel without touching the same files. |
+| **WSL** | Windows Subsystem for Linux: runs Linux inside Windows, so Linux-first tools work on a Windows PC. |
+| **Local model** | A model running on your own computer (via Ollama or LM Studio): free and private, usually less capable than the big cloud models. |
 | **Git / GitHub** | Git tracks versions of files (a time machine for folders). GitHub hosts them online. Useful for backing up your vault and sharing skills. |

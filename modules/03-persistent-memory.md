@@ -106,7 +106,7 @@ Obsidian → Settings → Community plugins → Browse:
 | **Obsidian Git** | Automatic backup of your vault to a private Git repository |
 | **Excalidraw** | Sketch diagrams inside notes |
 
-None are required. Start without them, and add them when you feel the need.
+None are required. Start without them, and add them when you feel the need. AI plugins (Smart Connections for finding related notes by meaning, Copilot for chatting with your vault, MCP plugins that connect the vault to Claude Desktop) are compared in the [Toolbox](../TOOLBOX.md#4-memory-add-ons-around-your-obsidian-vault).
 
 ### 5. Connect the vault to your agent
 

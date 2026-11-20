@@ -115,6 +115,14 @@ In the desktop app, choose `ai-workspace` as the working directory when you star
 
 ---
 
+## Other agents and nicer terminals
+
+Claude Code and Goose aren't the only options. **No terminal at all?** Claude's desktop agent **Cowork** works in a folder through chat. **Want an open-source Claude Code?** Try **OpenCode**. **Live in ChatGPT?** **Codex**. The [Toolbox](../TOOLBOX.md#1-agents-harnesses) compares 18 agents, and everything in this course (instructions, vault, skills) works with most of them.
+
+On Windows, install **[Windows Terminal](https://aka.ms/terminal)** (free, from Microsoft): tabs, split panes, and a much nicer window than the default PowerShell one. More terminal options are in the [Toolbox](../TOOLBOX.md#2-terminals-a-nicer-window).
+
+---
+
 ## Permissions: the most important habit
 
 Agents ask before doing risky things ("Can I run this command?", "Can I edit this file?"). **Read what it wants to do before you approve.**

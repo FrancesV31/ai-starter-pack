@@ -115,7 +115,7 @@ Written for this course, simple on purpose: **[researcher](../config-examples/su
 
 > Draft a one-page proposal for <idea>. Then have the critic subagent review it. Revise based on its critique, and show me what changed.
 
-For many more roles to read and adapt, see [VoltAgent's 100+ subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) (business, research, product…) and [ECC](https://github.com/affaan-m/ECC) (engineering).
+For many more roles to read and adapt, see [VoltAgent's 100+ subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) (business, research, product…) and ECC's 68 agents. The [ECC guide](../guides/ecc.md#ecc-beyond-claude-a-case-study) shows how to adapt them for Goose.
 
 ---
 
@@ -161,6 +161,22 @@ Open **[TEAM.md](../config-examples/orchestration/TEAM.md)**. It's this team as 
 > When a task is big, read TEAM.md in my vault and act as the orchestrator.
 
 Then give it a real, multi-part task and watch it plan, dispatch and gate.
+
+---
+
+## Running several agents side by side
+
+Subagents run *inside* one session. Sometimes you'll want several **separate sessions** open at once: one per specialist, or one per project. Two problems appear: knowing which agent is waiting for you, and stopping agents from overwriting each other's files.
+
+| Need | Tool |
+|---|---|
+| A few sessions, no setup | The Claude desktop app or Goose Desktop: open several sessions |
+| See at a glance which agent is working, idle or waiting; keep sessions alive when you close the laptop | **[Herdr](https://herdr.dev)**, an agent-aware workspace manager for the terminal (Windows via WSL) |
+| Each agent on its own copy of the project | **Git worktrees**, managed for you by **[Claude Squad](https://github.com/smtg-ai/claude-squad)**, **dmux** or **ccmanager** |
+| A visual dashboard (Mac) | **[Conductor](https://conductor.build)** |
+| Hand ECC's specialist agents to a team in one go | ECC's `team-builder` skill ([ECC guide](../guides/ecc.md)) |
+
+Details and alternatives are in the [Toolbox](../TOOLBOX.md#3-running-several-agents-side-by-side). The same rules apply as in TEAM.md: never let two agents write to the same file at the same time.
 
 ---
 

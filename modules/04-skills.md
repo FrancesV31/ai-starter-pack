@@ -96,6 +96,17 @@ Think of a request you've typed three times. Then:
 
 Open the `SKILL.md` it created, read it, and adjust it. You've just taught your agent a permanent new ability.
 
+### 3. Next library: ECC (pick, don't bulk-install)
+
+[ECC](https://github.com/affaan-m/ECC) has 290+ skills: research, writing, business, product, memory, quality checks, orchestration. Installing all of them would flood your agent's whiteboard. Install a **selection** instead:
+
+```powershell
+.\setup\get-ecc-skills.ps1 -List        # browse every skill with its description
+.\setup\get-ecc-skills.ps1              # install 8 recommended ones (council, product-lens, brand-voice…)
+```
+
+The [ECC guide](../guides/ecc.md) has a curated list of ~30 skills for non-developers, and the full-install options.
+
 ### A skill can hand off to a subagent
 
 `fact-check` is only a few lines long: it packages your request and hands it to the `fact-checker` subagent, which does the heavy research on its own whiteboard. Try `/fact-check <a file or URL>` now, or wait for module 06, which explains the pattern.
@@ -117,4 +128,5 @@ Open the `SKILL.md` it created, read it, and adjust it. You've just taught your 
 - ⭐ [Matt Pocock — skills](https://github.com/mattpocock/skills)
 - [Anthropic — Equipping agents with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills)
 - [Claude Code — skills docs](https://code.claude.com/docs/en/skills) · [Goose — skills docs](https://goose-docs.ai/docs/guides/context-engineering/using-skills)
-- [ECC](https://github.com/affaan-m/ECC): a huge library of skills, agents and hooks. Explore it later; installing everything at once makes your agent slower and noisier.
+- [ECC guide](../guides/ecc.md): the big library, used wisely
+- [Toolbox: skill and subagent libraries](../TOOLBOX.md#5-skill-and-subagent-libraries), including Anthropic's official example skills
