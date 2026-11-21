@@ -136,6 +136,10 @@ The [ECC guide](../guides/ecc.md) has a curated list of ~30 skills for non-devel
 - **Subagents** (06) can be given specific skills.
 - **Automation** (07) runs skills on a schedule: "run vault-lint every Monday".
 
+---
+
+> 🟢 **End of the Core track.** You now have an agent that knows who you are, remembers through your vault, and runs your saved workflows. **Stop here for a week or two** and use it on real work. Aim for three sessions that start by reading the vault and end with `session-wrap`. Come back to the [Advanced track](../README.md#-advanced-track-about-2½-hours-at-your-own-pace-plug-in-delegate-automate) (module 05) when you feel a need it covers.
+
 ## Go deeper
 
 - ⭐ [Matt Pocock — skills](https://github.com/mattpocock/skills)

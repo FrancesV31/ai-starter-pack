@@ -73,13 +73,26 @@ Not sure? Start with the Claude path if you already pay for Claude, otherwise th
 
 ## The course
 
+The course has two tracks. **Do the Core track first, and stop there for a week or two.** Use what you've built on real work before going further. Most of the value is in the Core track.
+
+### 🟢 Core track (about 2½ hours): an agent that knows you and remembers
+
 | # | Module | You'll understand | You'll have | Time |
 |---|---|---|---|---|
 | 00 | [How AI agents actually work](modules/00-how-agents-work.md) | Model vs harness, context window, why AI "forgets" | A mental model | 15 min |
 | 01 | [Install your agent](modules/01-install-your-agent.md) | Terminals, permissions, providers | A working agent | 30 min |
 | 02 | [Standing instructions](modules/02-standing-instructions.md) | How agents learn who you are | Your profile file | 15 min |
-| 03 | ⭐ [Persistent memory with Obsidian](modules/03-persistent-memory.md) | The "LLM Wiki" pattern | A memory vault the agent maintains | 60 min |
-| 04 | [Skills: saved workflows](modules/04-skills.md) | Why skills are cheap and portable | 5–10 skills installed | 20 min |
+| 03 | ⭐ [Persistent memory with Obsidian](modules/03-persistent-memory.md) | The "LLM Wiki" pattern, and what a healthy vault looks like ([sample](vault-sample/README.md)) | A memory vault the agent maintains | 60 min |
+| 04 | [Skills: saved workflows](modules/04-skills.md) | Why skills are cheap and portable | 11 starter skills, incl. `shape` and `critique` | 20 min |
+
+**You're done with the Core track when** you've had three real sessions where the agent read your vault at the start and updated it at the end. Not before.
+
+### 🔵 Advanced track (about 2½ hours, at your own pace): plug in, delegate, automate
+
+Come back when you feel one of these needs: "I want it to reach my other apps" (05), "this task is too big for one session" (06), "I'm pressing the same button again and again" (07).
+
+| # | Module | You'll understand | You'll have | Time |
+|---|---|---|---|---|
 | 05 | [Connectors (MCP)](modules/05-connectors-mcp.md) | How agents plug into other software, and what it costs in tokens | 1 connector | 25 min |
 | 06 | ⭐ [Subagents & orchestration](modules/06-subagents-and-orchestration.md) | Delegation, specialists, a real orchestrated team with a QA gate | A fact-checker + your team roster | 60 min |
 | 07 | ⭐ [Automation](modules/07-automation.md) | Hooks, loops, parallel work (schedules optional) | A loop that runs until done | 45 min |
@@ -101,6 +114,7 @@ ai-starter-pack/
 ├── guides/ecc.md           ← the ECC library: install options + ~30 curated skills for non-developers
 ├── modules/                ← the course
 ├── vault-template/         ← an empty memory vault, ready to open in Obsidian
+├── vault-sample/           ← the same vault after six weeks of use (fictional project): see what "good" looks like
 ├── skills/                 ← 11 starter skills: vault operations, fact-check, thinking (shape, critique, market, prd…)
 ├── config-examples/        ← instruction templates, subagents (incl. fact-checker), team roster, recipes, automation
 └── setup/                  ← scripts: check your install, copy the starter skills, fetch ECC skills

@@ -1,0 +1,7 @@
+# Sample vault: raw/ files are fictional, so they ARE kept in Git (unlike the template,
+# which keeps your real raw sources local by default).
+
+# Obsidian's per-device state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.trash/

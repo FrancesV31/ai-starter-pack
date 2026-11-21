@@ -1,6 +1,6 @@
 # 05 — Connectors (MCP): plug your agent into other software
 
-⏱ 25 min · [← Previous](04-skills.md) · [Next: Subagents & orchestration →](06-subagents-and-orchestration.md)
+🔵 **Advanced track** · ⏱ 25 min · [← Previous](04-skills.md) · [Next: Subagents & orchestration →](06-subagents-and-orchestration.md)
 
 ## Why it matters
 

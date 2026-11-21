@@ -1,0 +1,1 @@
+Market organiser — got her details from Sam on 8 Oct. Ask: how many visitors on a typical Saturday? Any rules for food stalls near the fountain? Do they have their own stall fees on top of the council licence?

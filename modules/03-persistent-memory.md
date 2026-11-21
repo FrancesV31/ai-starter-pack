@@ -83,6 +83,12 @@ As your vault grows, split it into **domains** (career, a side project, a hobby,
 
 Download it from https://obsidian.md and install it. It's free for personal use.
 
+### 1b. First, see what you're building (10 min)
+
+Before creating your own empty vault, open the **[sample vault](../vault-sample/README.md)** in Obsidian (**Open folder as vault** → `vault-sample`). It's the same template after six weeks of use on a fictional project, "opening a weekend coffee cart": 4 raw notes, 10 linked wiki pages, a decision traced back to its evidence, session notes, a log, and a lint report where the agent catches a contradiction.
+
+Open the graph view (Ctrl/Cmd+G), then try: start your agent in `vault-sample` and ask *"What do we know about permits? Cite your pages."* That answer, with citations and a list of what's unknown, is what your own vault will give you in a few weeks.
+
 ### 2. Create your vault from the template
 
 1. Copy the [`vault-template/`](../vault-template/) folder from this pack to a permanent place, for example `Documents/my-vault`. Rename it however you like.
